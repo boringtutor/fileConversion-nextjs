@@ -1,8 +1,7 @@
 import type { FC } from "react";
 import { useCallback, useRef, useState } from "react";
-
+import { Button } from "@/app/ui/button";
 import { TargetBox } from "./TargetBox";
-
 import { useMemo } from "react";
 
 export interface FileListProps {
@@ -60,6 +59,7 @@ export const FileList: FC<FileListProps> = ({ files }) => {
 
 export const Container: FC = () => {
   const [droppedFiles, setDroppedFiles] = useState<File[]>([]);
+  const buttonDisabled = useRef(0);
 
   //  var fileToDisplayData: any = null;
 
@@ -91,6 +91,18 @@ export const Container: FC = () => {
         />
         <div></div>
         <FileList files={droppedFiles} />
+        <div className="flex  m-4">
+          <div className="flex m-4">
+            <div className="">Select file type</div>
+            {buttonDisabled.current === 0 ? (
+              <Button className=" disabled:opacity-70 ">Convert</Button>
+            ) : (
+              <Button disabled className=" disabled:opacity-70 ">
+                Convert
+              </Button>
+            )}
+          </div>
+        </div>
       </div>
     </>
   );
