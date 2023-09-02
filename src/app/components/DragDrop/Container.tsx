@@ -3,6 +3,7 @@ import { useCallback, useRef, useState } from "react";
 import { Button } from "@/app/ui/button";
 import { TargetBox } from "./TargetBox";
 import { useMemo } from "react";
+import Selector from "./Selector";
 
 export interface FileListProps {
   files: File[];
@@ -14,6 +15,12 @@ function experimentToGetFileData(files: File[]): void {
   //TODO hovered
   //TODO file uploaded
   //TODO: Lift the state up from the TargetBox to container so we can disable the file upload
+
+  const items = ["pdf", "docx", "csx", "json"];
+
+  function handleFileSelected(index: number) {
+    console.log(`the file will be converted to  ==> ${items[index]}`);
+  }
 
   const label = (file: File) => {
     const result_string = file.type.split("/");
@@ -60,7 +67,7 @@ export const FileList: FC<FileListProps> = ({ files }) => {
 export const Container: FC = () => {
   const [droppedFiles, setDroppedFiles] = useState<File[]>([]);
   const buttonDisabled = useRef(0);
-
+  const [currentValue, setCurrentValue] = useState("pdf");
   //  var fileToDisplayData: any = null;
 
   const handleFileDrop = useCallback(
@@ -81,6 +88,7 @@ export const Container: FC = () => {
     },
     [setDroppedFiles]
   );
+  const items = ["pdf", "docx", "csx", "json"];
 
   return (
     <>
@@ -92,8 +100,10 @@ export const Container: FC = () => {
         <div></div>
         <FileList files={droppedFiles} />
         <div className="flex  m-4">
-          <div className="flex m-4">
-            <div className="">Select file type</div>
+          <div className="flex m-4 p-4">
+            <div className="flex mr-4">
+              <Selector setValue={setCurrentValue} items={items}></Selector>
+            </div>
             {buttonDisabled.current === 0 ? (
               <Button className=" disabled:opacity-70 ">Convert</Button>
             ) : (
@@ -101,6 +111,8 @@ export const Container: FC = () => {
                 Convert
               </Button>
             )}
+
+            <div>current Value {currentValue}</div>
           </div>
         </div>
       </div>
