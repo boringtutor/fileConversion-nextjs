@@ -7,11 +7,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/app/ui/select";
+import { Dispatch } from "react";
 
 interface SelectProps {
-  items: [];
+  items: string[];
   onClickHandler?: Function;
-  setValue: any;
+  setValue: Dispatch<any>;
 }
 
 export default function Selector(props: SelectProps) {
